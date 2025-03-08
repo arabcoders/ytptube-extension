@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Options menu for YTPTube Extension</title>
+    <link rel="stylesheet" href="css/pure.css"/>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: white;
+                background-color: #19191c;
+            }
+            input {
+                background-color: #19191c;
+                color: white;
+            }
+            fieldset > legend {
+                color: white !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<form id="ytptube_options" class="pure-form pure-form-stacked">
+    <fieldset style="padding:1em">
+        <legend>Settings</legend>
+
+        <div class="pure-control-group">
+            <label for="instance_url">YTPTube URL</label>
+            <input type="text" class="pure-input-1" id="instance_url" placeholder="https://ytptube.example.org">
+            <span class="pure-form-message">URL to your YTPTube instance</span><br>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="preset">Preset</label>
+            <input type="text" class="pure-input-1" id="preset" placeholder="Leave empty to use default preset.">
+            <span class="pure-form-message">Preset to use for the URL</span><br>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="template">Output Template</label>
+            <input type="text" class="pure-input-1" id="template"
+                   placeholder="Leave empty to use default output template.">
+            <span class="pure-form-message">Filename template to use for the output file.</span><br>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="folder">Download Folder</label>
+            <input type="text" class="pure-input-1" id="folder" placeholder="Leave empty to use default download path.">
+            <span class="pure-form-message">Where to save downloaded files.</span><br>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="username">Auth Username</label>
+            <input type="text" class="pure-input-1" id="username"
+                   placeholder="Leave empty if you have not configured a authentication.">
+            <span class="pure-form-message">Username to use for authentication.</span><br>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="password">Auth Password</label>
+            <input type="password" class="pure-input-1" id="password"
+                   placeholder="Leave empty if you have not configured a authentication.">
+            <span class="pure-form-message">Password to use for authentication.</span><br>
+        </div>
+
+        <label for="showContextMenu">
+            <input type="checkbox" id="showContextMenu"/> Show context menu in supported sites
+        </label><br>
+
+        <button class="pure-button pure-input-1 pure-button-primary" type="submit">Save</button>
+    </fieldset>
+</form>
+
+<script src="options.js"></script>
+</body>
+</html>
