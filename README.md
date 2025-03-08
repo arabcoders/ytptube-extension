@@ -8,9 +8,9 @@ This extension can be used in `Chrome/Chromium browsers` and `Firefox` to add UR
 
 ## Installation from store
 
-- Install from [Firefox]()
-- Install from [Chrome]()
+- Install from [Firefox](https://addons.mozilla.org/en-US/firefox/addon/ytptube-extension/)
+- Install from [Chrome/Chromium Browsers](https://chromewebstore.google.com/detail/ytptube-extension/kiepfnpeflemfokokgjiaelddchglfil)
 
 ## Usage
 
-Configure the extension to point to your YTPTube instance in addon preferences.
+Configure the extension to point to your YTPTube instance in the extension options page.
