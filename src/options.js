@@ -2,9 +2,8 @@
 
 const str_keys = ["instance_url", "preset", "template", "folder", "username", "password"]
 
-const $ = s => document.querySelector(s)
-
 if (typeof chrome === 'undefined') {
+    // noinspection JSUnusedLocalSymbols
     let chrome = browser
 }
 
@@ -25,7 +24,7 @@ document.getElementById("ytptube_options").addEventListener("submit", (e) => {
 
     let showContextMenu = document.querySelector("#showContextMenu").checked;
 
-    let data = {}
+    let data = {presets: {presets: ['default'], last_updated: 0}}
 
     str_keys.forEach(key => data[key] = document.querySelector(`#${key}`).value)
     data["showContextMenu"] = showContextMenu

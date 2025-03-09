@@ -11,6 +11,10 @@
             margin: 1em;
         }
 
+        body {
+            font-size: 100%;
+        }
+
         @media (prefers-color-scheme: dark) {
             body {
                 color: white;
@@ -36,9 +40,16 @@
 
 <form id="ytptube_popup" class="pure-form pure-form-stacked">
     <div class="pure-control-group">
+        <label for="preset">Preset</label>
+        <select id="preset" class="pure-input-1" style="padding-top:0;padding-bottom:0">
+            <option value="default">default</option>
+        </select>
+        <span class="pure-form-message">Select preset to use with the URL.</span>
+    </div>
+    <div class="pure-control-group">
         <label for="user_url">URL:</label>
         <input id="user_url" class="pure-input-1" type="text" placeholder="https://..">
-        <span class="pure-form-message">The URL to send to YTPTube instance</span><br>
+        <span class="pure-form-message">The URL to send to YTPTube instance</span>
     </div>
     <div class="pure-control-group">
         <button class="pure-button pure-input-1 pure-button-primary" type="submit">Send to YTPTube</button>
