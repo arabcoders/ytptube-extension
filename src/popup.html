@@ -3,64 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>YTPTube Extension</title>
-    <link rel="stylesheet" href="css/pure.css"/>
-    <style>
-        #ytptube_popup {
-            min-width: 250px;
-            min-height: 120px;
-            margin: 1em;
-        }
-
-        body {
-            font-size: 100%;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                color: white;
-                background-color: #19191c;
-            }
-
-            input {
-                background-color: #19191c;
-                color: white;
-            }
-
-            fieldset > legend {
-                color: white !important;
-            }
-        }
-
-        .button-secondary {
-            background: rgb(66, 184, 221);
-        }
-    </style>
+    <link rel="stylesheet" href="css/bulma.css"/>
 </head>
-<body>
+<body class="container">
 
-<form id="ytptube_popup" class="pure-form pure-form-stacked">
-    <div class="pure-control-group">
-        <label for="preset">Preset</label>
-        <select id="preset" class="pure-input-1" style="padding-top:0;padding-bottom:0">
-            <option value="default">default</option>
-        </select>
-        <span class="pure-form-message">Select preset to use with the URL.</span>
+<div class="columns is-multiline">
+    <div class="column is-12">
+        <form id="ytptube_popup" class="pl-2 pr-2 pt-2">
+            <div class="field">
+                <label class="label" for="preset">Preset</label>
+                <div class="select is-fullwidth">
+                    <select id="preset" class="is-fullwidth">
+                        <option value="default">default</option>
+                    </select>
+                </div>
+                <span class="help">Select preset to use with the URL.</span>
+            </div>
+            <div class="field">
+                <label class="label" for="user_url">URL:</label>
+                <div class="control">
+                    <input id="user_url" class="input" type="text" placeholder="https://..">
+                </div>
+                <span class="help">The URL to send.</span>
+            </div>
+            <div class="field is-grouped">
+                <div class="control is-expanded">
+                    <button class="button is-primary is-fullwidth" type="submit">Send to YTPTube</button>
+                </div>
+                <div class="control is-expanded">
+                    <button class="button is-info is-fullwidth" type="button" id="go-to-options">
+                        Open options page
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="pure-control-group">
-        <label for="user_url">URL:</label>
-        <input id="user_url" class="pure-input-1" type="text" placeholder="https://..">
-        <span class="pure-form-message">The URL to send to YTPTube instance</span>
-    </div>
-    <div class="pure-control-group">
-        <button class="pure-button pure-input-1 pure-button-primary" type="submit">Send to YTPTube</button>
-    </div>
-    <br>
-    <div class="pure-control-group">
-        <button class="pure-button pure-input-1 button-secondary" type="button" id="go-to-options">
-            Open options page
-        </button>
-    </div>
-</form>
+</div>
 
 <script src="popup.js"></script>
 

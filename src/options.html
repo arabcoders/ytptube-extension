@@ -4,75 +4,82 @@
 <head>
     <meta charset="utf-8">
     <title>Options menu for YTPTube Extension</title>
-    <link rel="stylesheet" href="css/pure.css"/>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            body {
-                color: white;
-                background-color: #19191c;
-            }
-            input {
-                background-color: #19191c;
-                color: white;
-            }
-            fieldset > legend {
-                color: white !important;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/bulma.css"/>
 </head>
 
-<body>
-<form id="ytptube_options" class="pure-form pure-form-stacked">
-    <fieldset style="padding:1em">
-        <legend>Settings</legend>
+<body class="container">
+<div class="columns is-multiline">
+    <div class="column is-12">
+        <form id="ytptube_options" class="content m-1">
+            <div class="field">
+                <label class="label" for="instance_url">YTPTube URL</label>
+                <div class="control">
+                    <input type="text" class="input" id="instance_url" placeholder="https://ytptube.example.org">
+                </div>
+                <span class="help">URL to your YTPTube instance</span>
+            </div>
 
-        <div class="pure-control-group">
-            <label for="instance_url">YTPTube URL</label>
-            <input type="text" class="pure-input-1" id="instance_url" placeholder="https://ytptube.example.org">
-            <span class="pure-form-message">URL to your YTPTube instance</span><br>
-        </div>
+            <div class="field">
+                <label class="label" for="preset">Preset</label>
+                <div class="control">
+                    <input type="text" class="input" id="preset" placeholder="Leave empty to use default preset.">
+                </div>
+                <span class="help">Preset to use for the URL</span>
+            </div>
 
-        <div class="pure-control-group">
-            <label for="preset">Preset</label>
-            <input type="text" class="pure-input-1" id="preset" placeholder="Leave empty to use default preset.">
-            <span class="pure-form-message">Preset to use for the URL</span><br>
-        </div>
+            <div class="field">
+                <label class="label" for="template">Output Template</label>
+                <div class="control">
+                    <input type="text" class="input" id="template"
+                           placeholder="Leave empty to use default output template.">
+                </div>
+                <span class="help">Filename template to use for the output file.</span>
+            </div>
 
-        <div class="pure-control-group">
-            <label for="template">Output Template</label>
-            <input type="text" class="pure-input-1" id="template"
-                   placeholder="Leave empty to use default output template.">
-            <span class="pure-form-message">Filename template to use for the output file.</span><br>
-        </div>
+            <div class="field">
+                <label class="label" for="folder">Download Folder</label>
+                <div class="control">
+                    <input type="text" class="input" id="folder"
+                           placeholder="Leave empty to use default download path.">
+                </div>
+                <span class="help">Where to save downloaded files.</span>
+            </div>
 
-        <div class="pure-control-group">
-            <label for="folder">Download Folder</label>
-            <input type="text" class="pure-input-1" id="folder" placeholder="Leave empty to use default download path.">
-            <span class="pure-form-message">Where to save downloaded files.</span><br>
-        </div>
+            <div class="field">
+                <label class="label" for="username">Auth Username</label>
+                <div class="control">
+                    <input type="text" class="input" id="username" placeholder="Auth username">
+                </div>
+                <span class="help">Leave empty if you have not configured a authentication.</span>
+            </div>
 
-        <div class="pure-control-group">
-            <label for="username">Auth Username</label>
-            <input type="text" class="pure-input-1" id="username"
-                   placeholder="Leave empty if you have not configured a authentication.">
-            <span class="pure-form-message">Username to use for authentication.</span><br>
-        </div>
+            <div class="field">
+                <label class="label" for="password">Auth Password</label>
+                <div class="control">
+                    <input type="password" class="input" id="password" placeholder="Auth Password">
+                </div>
+                <span class="help">Leave empty if you have not configured a authentication.</span>
+            </div>
 
-        <div class="pure-control-group">
-            <label for="password">Auth Password</label>
-            <input type="password" class="pure-input-1" id="password"
-                   placeholder="Leave empty if you have not configured a authentication.">
-            <span class="pure-form-message">Password to use for authentication.</span><br>
-        </div>
+            <label class="checkbox mb-1" for="showContextMenu">
+                <input type="checkbox" id="showContextMenu"/> Show context menu in supported sites
+            </label>
 
-        <label for="showContextMenu">
-            <input type="checkbox" id="showContextMenu"/> Show context menu in supported sites
-        </label><br>
+            <div class="field has-text-danger">
+                <p id="error_msg"></p>
+            </div>
 
-        <button class="pure-button pure-input-1 pure-button-primary" type="submit">Save</button>
-    </fieldset>
-</form>
+            <div class="field is-grouped">
+                <div class="control is-expanded">
+                    <button class="button is-primary is-fullwidth" type="submit">Save</button>
+                </div>
+                <div class="control is-expanded">
+                    <button class="button is-info is-fullwidth" type="button" id="test_config">Test</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script src="options.js"></script>
 </body>

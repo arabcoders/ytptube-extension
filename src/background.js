@@ -49,17 +49,17 @@ const getOption = async key => {
     }
 }
 
-const sendRequest = async user_url => {
-    const instanceUrl = await getOption("instance_url");
+const sendRequest = async (path, data) => {
+    let instanceUrl = await getOption("instance_url");
     if (!instanceUrl) {
-        notify('YTPTube instance url not configured.');
-        return;
+        throw new Error('YTPTube instance url not configured.');
+    }
+
+    if (instanceUrl.endsWith('/')) {
+        instanceUrl = instanceUrl.slice(0, -1);
     }
 
     let headers = {};
-    let data = {
-        url: user_url,
-    }
 
     const auth_username = await getOption("username");
     const auth_password = await getOption("password");
@@ -67,41 +67,34 @@ const sendRequest = async user_url => {
         headers['Authorization'] = 'Basic ' + btoa(`${auth_username}:${auth_password}`);
     }
 
-    const preset = await getOption("preset");
-    if (preset) {
-        data['preset'] = preset;
-    }
-
-    const template = await getOption("template");
-    if (template) {
-        data['template'] = template;
-    }
-
-    const folder = await getOption("folder");
-    if (folder) {
-        data['folder'] = folder;
-    }
+    const url = new URL(instanceUrl);
+    url.pathname = path;
 
     console.debug(`Sending to '${instanceUrl}'.`, data, headers.length > 0 ? 'with auth header' : 'without auth header');
 
-    const url = new URL(instanceUrl);
-    url.pathname = '/api/history';
+    let opts = {method: data.length > 0 ? 'POST' : 'GET', headers: headers};
 
-    const req = await fetch(url, {
-        method: 'POST',
-        headers: {
-            ...headers,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    });
-
-    if (200 === req.status) {
-        notify('Request sent successfully.');
-        return
+    if (data) {
+        opts.headers['Content-Type'] = 'application/json';
+        opts.body = JSON.stringify(data);
     }
 
-    notify(`Failed to send request. '${req.status}: ${req.statusText}'.`);
+    const req = await fetch(url, opts);
+    return {status: req.status, statusText: req.statusText, data: req};
+};
+
+const sendUrl = async user_url => {
+    try {
+        const data = await sendRequest('/api/history', {url: user_url});
+        if (200 === data.status) {
+            notify('Request sent successfully.');
+            return
+        }
+        notify(`Failed to send request. '${data.status}: ${data.statusText}'.`);
+    }catch (e) {
+        console.error(e);
+        notify(`Failed to send request. '${e.message}'.`);
+    }
 };
 
 chrome.contextMenus.onClicked.addListener(async (info, _) => {
@@ -113,7 +106,7 @@ chrome.contextMenus.onClicked.addListener(async (info, _) => {
         return;
     }
 
-    await sendRequest(info.linkUrl);
+    await sendUrl(info.linkUrl);
 });
 
 chrome.runtime.onMessage.addListener(async (message) => {
@@ -128,7 +121,7 @@ chrome.runtime.onMessage.addListener(async (message) => {
         return;
     }
 
-    await sendRequest(url);
+    await sendUrl(url);
 });
 
 
