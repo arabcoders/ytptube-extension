@@ -7,7 +7,7 @@
     ]
   },
   "name": "YTPTube Extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Add URLs to YTPTube instance",
   "permissions": [
     "activeTab",
