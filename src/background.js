@@ -70,14 +70,14 @@ const sendRequest = async (path, data) => {
     const url = new URL(instanceUrl);
     url.pathname = path;
 
-    console.debug(`Sending to '${instanceUrl}'.`, data, headers.length > 0 ? 'with auth header' : 'without auth header');
-
-    let opts = {method: data.length > 0 ? 'POST' : 'GET', headers: headers};
+    let opts = {method: Object.keys(data).length > 0 ? 'POST' : 'GET', headers: headers};
 
     if (data) {
         opts.headers['Content-Type'] = 'application/json';
         opts.body = JSON.stringify(data);
     }
+
+    console.debug(`Sending to '${instanceUrl}'.`, opts, headers.length > 0 ? 'with auth header' : 'without auth header');
 
     const req = await fetch(url, opts);
     return {status: req.status, statusText: req.statusText, data: req};
