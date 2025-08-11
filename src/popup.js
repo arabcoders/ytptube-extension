@@ -3,12 +3,12 @@
 const $ = s => document.querySelector(s)
 
 if (typeof chrome === 'undefined') {
-    let chrome = browser
+    let chrome = browser;
 }
 
 const getOption = async (key, default_data) => {
     let item = await chrome.storage.sync.get(key);
-    return item[key] ?? default_data;
+    return item[key] || default_data;
 }
 
 const notify = message => chrome.notifications.create({
@@ -18,15 +18,55 @@ const notify = message => chrome.notifications.create({
     "message": message
 });
 
+const showLoading = (isLoading) => {
+    const submitBtn = $('#submit-btn')
+    
+    if (isLoading) {
+        submitBtn.disabled = true
+        submitBtn.classList.add('is-loading')
+    } else {
+        submitBtn.disabled = false
+        submitBtn.classList.remove('is-loading')
+    }
+}
+
+const showStatusMessage = (message, isSuccess = true) => {
+    const statusDiv = $('#status-message')
+    statusDiv.textContent = message
+    statusDiv.className = `notification ${isSuccess ? 'is-success' : 'is-danger'}`
+    statusDiv.classList.remove('is-hidden')
+    
+    // Hide the message after 3 seconds
+    setTimeout(() => {
+        statusDiv.classList.add('is-hidden')
+    }, 3000)
+}
+
 $("#ytptube_popup").addEventListener("submit", async (e) => {
     e.preventDefault()
     const url = $('#user_url').value
+    const preset = $('#preset').value
     if (!url) {
-        notify('URL is required.')
+        showStatusMessage('URL is required.', false)
         return
     }
 
-    await chrome.runtime.sendMessage({command: 'send-to-ytptube', url: url})
+    showLoading(true)
+    
+    try {
+        const response = await chrome.runtime.sendMessage({command: 'send-to-ytptube', url: url, preset: preset})
+        
+        if (response && response.success) {
+            showStatusMessage('Request sent successfully!', true)
+        } else {
+            showStatusMessage(response?.message || 'Failed to send request.', false)
+        }
+    } catch (error) {
+        showStatusMessage('Error sending request.', false)
+        console.error('Error:', error)
+    } finally {
+        showLoading(false)
+    }
 })
 
 const getCurrentUrl = async () => (await chrome.tabs.query({currentWindow: true, active: true}))[0].url

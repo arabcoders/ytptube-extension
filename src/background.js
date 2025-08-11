@@ -83,17 +83,39 @@ const sendRequest = async (path, data) => {
     return {status: req.status, statusText: req.statusText, data: req};
 };
 
-const sendUrl = async user_url => {
+const sendUrl = async (user_url, preset = null) => {
     try {
-        const data = await sendRequest('/api/history', {url: user_url});
+        const requestData = {url: user_url};
+        if (preset) {
+            requestData.preset = preset;
+        }
+        
+        // Add template and folder if configured
+        const template = await getOption("template");
+        if (template) {
+            requestData.template = template;
+        }
+        
+        const folder = await getOption("folder");
+        if (folder) {
+            requestData.folder = folder;
+        }
+        
+        console.debug('Sending request data:', requestData);
+        
+        const data = await sendRequest('/api/history', requestData);
         if (200 === data.status) {
             notify('Request sent successfully.');
-            return
+            return { success: true, message: 'Request sent successfully.' };
         }
-        notify(`Failed to send request. '${data.status}: ${data.statusText}'.`);
+        const errorMessage = `Failed to send request. '${data.status}: ${data.statusText}'.`;
+        notify(errorMessage);
+        return { success: false, message: errorMessage };
     }catch (e) {
         console.error(e);
-        notify(`Failed to send request. '${e.message}'.`);
+        const errorMessage = `Failed to send request. '${e.message}'.`;
+        notify(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -106,22 +128,35 @@ chrome.contextMenus.onClicked.addListener(async (info, _) => {
         return;
     }
 
-    await sendUrl(info.linkUrl);
+    // Get the default preset for context menu actions
+    const defaultPreset = await getOption("preset");
+    await sendUrl(info.linkUrl, defaultPreset);
 });
 
-chrome.runtime.onMessage.addListener(async (message) => {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.command !== "send-to-ytptube") {
         return;
     }
 
-    let url = message.url || await getCurrentUrl();
+    (async () => {
+        try {
+            let url = message.url || await getCurrentUrl();
 
-    if (!url) {
-        await notify('No url found');
-        return;
-    }
+            if (!url) {
+                await notify('No url found');
+                sendResponse({ success: false, message: 'No url found' });
+                return;
+            }
 
-    await sendUrl(url);
+            const result = await sendUrl(url, message.preset);
+            sendResponse(result);
+        } catch (error) {
+            console.error('Error in message handler:', error);
+            sendResponse({ success: false, message: error.message });
+        }
+    })();
+
+    return true; // Keep the messaging channel open for async response
 });
 
 
