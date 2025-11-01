@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.3 - 2025-11-01
+
+- **Added**: Runtime optional host permission flow so users can authorize their own YTPTube servers without manual manifest edits.
+- **Improved**: Options page now normalizes instance URLs, records granted origins, and cleans up old host permissions when the server changes.
+- **Fixed**: Background requests to user-managed servers no longer hit CORS/address-space blocks after permissions are granted.
+
 ## 1.0.2 - 2025-08-12
 
 - **Fixed**: Selected preset was not being sent to YTPTube API - now properly includes preset in requests
