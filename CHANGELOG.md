@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.4 - 2025-11-01
+
+- **Fixed**: Issue with saving options for firefox.
+
 ## 1.0.3 - 2025-11-01
 
 - **Added**: Runtime optional host permission flow so users can authorize their own YTPTube servers without manual manifest edits.

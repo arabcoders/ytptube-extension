@@ -34,8 +34,7 @@ const ensureOriginPermission = async (originPattern) => {
         return false;
     }
 
-    const hasPermission = await chrome.permissions.contains({origins: [originPattern]});
-    if (hasPermission) {
+    if (!chrome.permissions || !chrome.permissions.request) {
         return true;
     }
 
@@ -164,4 +163,3 @@ document.getElementById("test_config").addEventListener("click", async e => {
     e.preventDefault();
     await testConfig();
 });
-

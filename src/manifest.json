@@ -7,7 +7,7 @@
     ]
   },
   "name": "YTPTube Extension",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Add URLs to YTPTube instance",
   "permissions": [
     "activeTab",
@@ -43,7 +43,12 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "ytptube@arabcoders.org",
-      "strict_min_version": "113.0"
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   },
   "content_security_policy": {
